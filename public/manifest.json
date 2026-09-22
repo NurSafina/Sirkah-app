@@ -1,0 +1,9 @@
+{
+  "name": "Sirkah Kantin",
+  "short_name": "Sirkah",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#f7faf8",
+  "theme_color": "#1f6f4a",
+  "icons": [{"src": "/favicon.ico", "sizes": "any", "type": "image/x-icon"}]
+}
