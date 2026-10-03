@@ -79,7 +79,7 @@
                                 <form method="POST" action="{{ route('transactions.destroy', $transaction) }}" onsubmit="return confirm(@js('Hapus transaksi ' . $transaction->transaction_code . '? Stok dan saldo akan dikembalikan.'))">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-danger btn-small" type="submit">Hapus</button>
+<button class="btn btn-danger btn-small" type="submit">Hapus / Batalkan</button>
                                 </form>
                             </div>
                         </td>

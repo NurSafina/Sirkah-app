@@ -69,7 +69,19 @@ class TransactionController extends Controller
         abort_unless(auth()->user()->isAdmin(), 403);
 
         if ($transaction->status !== 'completed') {
-            return back()->withErrors(['transaction' => 'Transaksi ini sudah tidak aktif.']);
+            DB::transaction(function () use ($transaction) {
+                AuditLog::create([
+                    'user_id' => auth()->id(),
+                    'action' => 'transaction.deleted',
+                    'auditable_type' => Transaction::class,
+                    'auditable_id' => $transaction->id,
+                    'old_values' => ['transaction_code' => $transaction->transaction_code, 'status' => $transaction->status, 'total' => $transaction->total],
+                    'ip_address' => request()->ip(),
+                ]);
+                $transaction->delete();
+            });
+
+            return redirect()->route('transactions.index')->with('success', 'Transaksi tidak aktif berhasil dihapus. Histori mutasi saldo dan stok tetap dipertahankan.');
         }
 
         DB::transaction(function () use ($transaction) {
@@ -86,7 +98,7 @@ class TransactionController extends Controller
             ]);
         });
 
-        return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil dibatalkan dan histori tetap disimpan.');
+        return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil dibatalkan. Saldo dan stok dikembalikan.');
     }
 
     private function restoreTransactionEffects(Transaction $transaction): void
