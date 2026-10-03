@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\RequestException;
 use Throwable;
 
 class SendWhatsAppNotification implements ShouldQueue
@@ -31,13 +32,18 @@ class SendWhatsAppNotification implements ShouldQueue
 
         $phoneNumberId = config('services.whatsapp.phone_number_id');
         $token = config('services.whatsapp.token');
-        if (blank($phoneNumberId) || blank($token)) {
-            $this->notification->update(['status' => 'failed', 'error_message' => 'Provider WhatsApp belum dikonfigurasi.']);
+        if (blank($phoneNumberId) || blank($token) || $token === 'isi_token_meta') {
+            $this->notification->update([
+                'status' => 'failed',
+                'error_message' => 'Provider WhatsApp belum dikonfigurasi. Isi WHATSAPP_PHONE_NUMBER_ID dengan Phone Number ID Meta dan WHATSAPP_TOKEN dengan access token Meta.',
+            ]);
             return;
         }
 
         try {
             Http::withToken($token)
+                ->acceptJson()
+                ->timeout(20)
                 ->post('https://graph.facebook.com/' . config('services.whatsapp.api_version', 'v20.0') . '/' . $phoneNumberId . '/messages', [
                     'messaging_product' => 'whatsapp',
                     'to' => $this->notification->phone_number,
@@ -47,6 +53,12 @@ class SendWhatsAppNotification implements ShouldQueue
                 ->throw();
 
             $this->notification->update(['status' => 'sent', 'sent_at' => now(), 'error_message' => null]);
+        } catch (RequestException $exception) {
+            $body = $exception->response?->json('error.message');
+            $this->notification->update([
+                'status' => 'failed',
+                'error_message' => $body ?: $exception->getMessage(),
+            ]);
         } catch (Throwable $exception) {
             $this->notification->update(['status' => 'failed', 'error_message' => $exception->getMessage()]);
         }
