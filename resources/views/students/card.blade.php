@@ -17,7 +17,10 @@
         .pondok-logo-placeholder { position: absolute; z-index: 3; left: 3mm; top: 3mm; width: 22mm; height: 8mm; display: grid; place-items: center; border: 1px solid #fff; border-radius: 1mm; font-size: 5px; line-height: 1; text-align: center; color: #0b1f3a; background: #fff; }
         .card-body { display: flex; gap: 3mm; height: 29mm; padding: 1mm 4mm 0; align-items: center; }
         .photo { width: 21mm; height: 25mm; object-fit: cover; border-radius: 1mm; border: 1px solid #b9c7d8; } .photo-placeholder { display: grid; place-items: center; background: #e6edf5; color: #29476a; font-size: 8px; }
-        .identity { flex: 1; display: block; text-align: left; min-width: 0; } .identity p { color: #0b1f3a; font-size: 7px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .identity p strong { font-size: 9px; } p { margin: 1.5px 0; } .field-label { display: inline-block; width: 19mm; font-weight: 700; }
+        .identity { flex: 1; display: block; text-align: left; min-width: 0; padding-right: 26mm; } .identity p { color: #0b1f3a; font-size: 7px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .identity p strong { font-size: 9px; } p { margin: 1.5px 0; } .field-label { display: inline-block; width: 19mm; font-weight: 700; }
+        .front-barcode-wrap { position: absolute; z-index: 4; right: 3.5mm; bottom: 8mm; width: 23mm; text-align: center; }
+        .front-barcode-wrap svg { display: block; width: 23mm; height: 7mm; margin: 0 auto .5mm; background: #fff; }
+        .front-barcode-wrap strong { display: block; color: #0b1f3a; font-size: 4.5px; letter-spacing: .2px; }
         .card-footer { height: 7mm; padding: 1.5mm 4mm; display: flex; align-items: center; justify-content: center; text-align: center; background: #0b1f3a; color: #fff; font-size: 6.5px; line-height: 1.1; }
         .back-card { display: flex; flex-direction: column; justify-content: space-between; padding: 7mm 8mm 5mm; text-align: center; background: linear-gradient(145deg, #fff 0%, #f4f7fb 100%); }
         .back-card h3 { margin: 0; color: #0b1f3a; font-size: 11px; letter-spacing: .4px; }
@@ -64,6 +67,7 @@
                     <p><span class="field-label">Kelas</span>: {{ $student->classroom }}</p>
                 </div>
             </div>
+            <div class="front-barcode-wrap"><svg id="front-barcode"></svg><strong>{{ $student->card_code }}</strong></div>
             <div class="card-footer">Alamat: {{ config('sirkah.school_address') }}</div>
         </div>
 
@@ -75,6 +79,10 @@
     </div>
     <div class="actions"><button onclick="window.print()">Cetak Kartu Depan & Belakang</button></div>
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
-    <script>JsBarcode('#barcode', @json($student->card_token), {format: 'CODE128', displayValue: false, height: 72, margin: 0});</script>
+    <script>
+        const cardToken = @json($student->card_token);
+        JsBarcode('#barcode', cardToken, {format: 'CODE128', displayValue: false, height: 72, margin: 0});
+        JsBarcode('#front-barcode', cardToken, {format: 'CODE128', displayValue: false, height: 28, margin: 0});
+    </script>
 </body>
 </html>
