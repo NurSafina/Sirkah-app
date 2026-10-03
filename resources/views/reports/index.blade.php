@@ -30,23 +30,21 @@
             </form>
         </div>
 
-        <div class="report-summary">
-            <div class="card report-summary__item">
-                <span class="report-summary__label">Pendapatan</span>
-                <strong>Rp {{ number_format($totalRevenue, 0, ',', '.') }}</strong>
-            </div>
-            <div class="card report-summary__item">
-                <span class="report-summary__label">Pengeluaran</span>
-                <strong>Rp {{ number_format($totalExpenses, 0, ',', '.') }}</strong>
-            </div>
-            <div class="card report-summary__item">
-                <span class="report-summary__label">Keuntungan</span>
-                <strong>Rp {{ number_format($profit, 0, ',', '.') }}</strong>
-            </div>
-            <div class="card report-summary__item">
-                <span class="report-summary__label">Total top-up</span>
-                <strong>Rp {{ number_format($totalTopups, 0, ',', '.') }}</strong>
-            </div>
+        <div class="report-section card">
+            <h3>Ringkasan Laporan</h3>
+            <table class="report-table">
+                <thead>
+                    <tr><th>Pendapatan</th><th>Pengeluaran</th><th>Keuntungan</th><th>Total Top-up</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rp {{ number_format($totalRevenue, 0, ',', '.') }}</td>
+                        <td>Rp {{ number_format($totalExpenses, 0, ',', '.') }}</td>
+                        <td>Rp {{ number_format($profit, 0, ',', '.') }}</td>
+                        <td>Rp {{ number_format($totalTopups, 0, ',', '.') }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="report-section card">
@@ -188,30 +186,6 @@
             margin: 0;
         }
 
-        .report-summary {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(180px, 1fr));
-            gap: 16px;
-        }
-
-        .report-summary__item {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            min-height: 100px;
-            justify-content: center;
-        }
-
-        .report-summary__label {
-            font-size: 0.85rem;
-            color: #667085;
-            font-weight: 600;
-        }
-
-        .report-summary__item strong {
-            font-size: 1.15rem;
-        }
-
         .report-grid-two {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -249,7 +223,6 @@
         }
 
         @media (max-width: 768px) {
-            .report-summary,
             .report-grid-two {
                 grid-template-columns: 1fr;
             }
@@ -287,12 +260,6 @@
             .report-header {
                 border: 0 !important;
                 padding: 0 0 8px !important;
-            }
-
-            .report-summary {
-                display: grid;
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-                gap: 10px;
             }
 
             .report-table th,
