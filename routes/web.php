@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
         })->name('students.card');
 
         Route::get('/balance-mutations', [BalanceMutationController::class, 'index'])->name('balance-mutations.index');
+        Route::delete('/balance-mutations/{balanceMutation}', [BalanceMutationController::class, 'destroy'])->name('balance-mutations.destroy');
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
         Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
         Route::get('/users', [UserController::class, 'index'])->name('users.index');

@@ -45,4 +45,23 @@ class BalanceMutationPageTest extends TestCase
         $response->assertSee('Rina');
         $response->assertSee('Top-up saldo siswa');
     }
+
+    public function test_admin_can_delete_a_balance_mutation_without_changing_student_balance(): void
+    {
+        $admin = User::factory()->create(['username' => 'admin-mutasi-delete', 'role' => 'admin']);
+        $student = Student::create([
+            'student_number' => 'S-002', 'name' => 'Dina', 'classroom' => 'XI-B',
+            'status' => 'active', 'balance' => 75000, 'daily_limit' => 20000,
+        ]);
+        $mutation = BalanceMutation::create([
+            'student_id' => $student->id, 'user_id' => $admin->id, 'type' => 'topup',
+            'amount' => 75000, 'description' => 'Mutasi yang dihapus',
+        ]);
+
+        $response = $this->actingAs($admin)->delete(route('balance-mutations.destroy', $mutation));
+
+        $response->assertRedirect();
+        $this->assertDatabaseMissing('balance_mutations', ['id' => $mutation->id]);
+        $this->assertSame('75000.00', (string) $student->fresh()->balance);
+    }
 }

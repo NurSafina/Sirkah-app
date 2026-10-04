@@ -15,6 +15,7 @@
                     <th>Nominal</th>
                     <th>Deskripsi</th>
                     <th>Petugas</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,10 +42,17 @@
                         </td>
                         <td>{{ $mutation->description }}</td>
                         <td>{{ $mutation->user?->name ?? '-' }}</td>
+                        <td>
+                            <form method="POST" action="{{ route('balance-mutations.destroy', $mutation) }}" onsubmit="return confirm('Hapus mutasi saldo ini dari daftar? Saldo siswa tidak akan diubah.');">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-small" type="submit">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6">Belum ada mutasi saldo.</td>
+                        <td colspan="7">Belum ada mutasi saldo.</td>
                     </tr>
                 @endforelse
             </tbody>
