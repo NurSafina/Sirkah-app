@@ -50,28 +50,28 @@
 
     <div class="feature-grid dashboard-features">
         <a class="feature-box feature-box-primary" href="{{ route('pos.index') }}">
-            <span class="feature-icon">＋</span>
+            <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h2l1.5 10h10L20 8H7"/><circle cx="10" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/><path d="M16 3v5M13.5 5.5h5"/></svg></span>
             <span class="feature-content"><strong>Mulai Transaksi</strong><small>Proses pembelian siswa</small></span>
             <span class="feature-arrow">→</span>
         </a>
         <a class="feature-box" href="{{ route('transactions.index') }}">
-            <span class="feature-icon">↔</span>
+            <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h13l-3-3M20 16H7l3 3M17 5l3 3-3 3M7 13l-3 3 3 3"/></svg></span>
             <span class="feature-content"><strong>Transaksi</strong><small>Lihat riwayat transaksi</small></span>
             <span class="feature-arrow">→</span>
         </a>
         @if (auth()->user()->isAdmin())
             <a class="feature-box" href="{{ route('students.index') }}">
-                <span class="feature-icon">♙</span>
+                <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0M18 5.5a3 3 0 0 1 0 5.5"/></svg></span>
                 <span class="feature-content"><strong>Kelola Siswa</strong><small>Data dan saldo siswa</small></span>
                 <span class="feature-arrow">→</span>
             </a>
             <a class="feature-box" href="{{ route('products.index') }}">
-                <span class="feature-icon">▦</span>
+                <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4.5 7.5 7.5 4 7.5-4M12 12v9M8 5.2l8 4.4"/></svg></span>
                 <span class="feature-content"><strong>Kelola Produk</strong><small>Harga, kategori, dan stok</small></span>
                 <span class="feature-arrow">→</span>
             </a>
             <a class="feature-box" href="{{ route('reports.index') }}">
-                <span class="feature-icon">▤</span>
+                <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16"/><path d="m7 15 3-4 3 2 5-6"/><circle cx="7" cy="15" r="1"/><circle cx="10" cy="11" r="1"/><circle cx="13" cy="13" r="1"/><circle cx="18" cy="7" r="1"/></svg></span>
                 <span class="feature-content"><strong>Laporan</strong><small>Ringkasan kinerja kantin</small></span>
                 <span class="feature-arrow">→</span>
             </a>
