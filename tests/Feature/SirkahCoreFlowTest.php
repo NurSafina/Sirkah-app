@@ -57,7 +57,7 @@ class SirkahCoreFlowTest extends TestCase
         $this->assertDatabaseCount('transactions', 0);
     }
 
-    public function test_cashier_cannot_change_products_or_cancel_transactions(): void
+    public function test_cashier_can_change_products_but_cannot_cancel_transactions(): void
     {
         $cashier = User::factory()->create(['role' => 'cashier', 'username' => 'kasir-flow-3']);
         $product = Product::create([
@@ -69,7 +69,9 @@ class SirkahCoreFlowTest extends TestCase
         $this->actingAs($cashier)->put('/products/' . $product->id, [
             'sku' => 'TEST-003', 'name' => 'Diubah', 'category' => 'Uji', 'unit' => 'pcs',
             'price' => 1, 'cost_price' => 1, 'stock' => 10, 'minimum_stock' => 1,
-        ])->assertForbidden();
+            'is_active' => 1,
+        ])->assertRedirect('/stock');
+        $this->assertDatabaseHas('products', ['id' => $product->id, 'name' => 'Diubah']);
 
         $transaction = Transaction::create([
             'user_id' => $cashier->id, 'transaction_code' => 'TRX-TEST-003', 'total' => 5000,

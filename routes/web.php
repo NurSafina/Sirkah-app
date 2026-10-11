@@ -69,11 +69,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::middleware('role:admin')->group(function () {
         Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-        Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
-        Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
         Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
         Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
     });
+    Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
     Route::get('/stock', [StockController::class, 'index'])->name('stock.index');
     Route::post('/stock', [StockController::class, 'store'])->name('stock.store');
     Route::put('/stock/{stockReport}', [StockController::class, 'update'])->name('stock.update');

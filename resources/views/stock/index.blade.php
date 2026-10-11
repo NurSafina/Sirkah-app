@@ -137,11 +137,11 @@
         <div class="card-heading">
             <div>
                 <h2>Kelola barang</h2>
-                <p class="muted">Admin mengelola barang; kasir mencatat stok masuk sesuai kewenangan.</p>
+                <p class="muted">Admin dan kasir dapat mengelola data barang serta stok sesuai kebutuhan operasional.</p>
             </div>
         </div>
 
-        @if (auth()->user()->isAdmin())
+        @if (auth()->user()->isAdmin() || ($editingProduct && auth()->user()->isCashier()))
         <form class="product-create-form" method="POST" action="{{ $editingProduct ? route('products.update', $editingProduct) : route('products.store') }}">
             @csrf
             <input type="hidden" name="is_active" value="1">
@@ -192,6 +192,7 @@
                 @endif
             </div>
         </form>
+        @endif
 
         <div class="product-management-table">
             <table>
@@ -228,7 +229,6 @@
                 </tbody>
             </table>
         </div>
-        @endif
     </div>
 
     <div class="card">

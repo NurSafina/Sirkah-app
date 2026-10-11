@@ -64,7 +64,7 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
-        $this->ensureAdminAccess();
+        $this->ensureProductManagementAccess();
         $data = $request->validate([
             'sku' => ['required', 'string', 'max:255', Rule::unique('products')->ignore($product->id)],
             'barcode' => ['nullable', 'string', 'max:255', Rule::unique('products')->ignore($product->id)],
@@ -107,7 +107,7 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        $this->ensureAdminAccess();
+        $this->ensureProductManagementAccess();
 
         if ($product->transactionItems()->exists()) {
             return back()->withErrors([
@@ -115,6 +115,14 @@ class ProductController extends Controller
             ]);
         }
 
+        AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'product.deleted',
+            'auditable_type' => Product::class,
+            'auditable_id' => $product->id,
+            'old_values' => $product->only(['sku', 'barcode', 'name', 'category', 'price', 'stock']),
+            'ip_address' => request()->ip(),
+        ]);
         $product->delete();
 
         return back()->with('success', 'Produk berhasil dihapus.');
@@ -130,5 +138,11 @@ class ProductController extends Controller
     {
         $user = auth()->user();
         abort_unless($user instanceof User && $user->isAdmin(), 403);
+    }
+
+    private function ensureProductManagementAccess(): void
+    {
+        $user = auth()->user();
+        abort_unless($user instanceof User && ($user->isAdmin() || $user->isCashier()), 403);
     }
 }

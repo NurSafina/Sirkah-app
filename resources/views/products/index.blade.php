@@ -30,11 +30,12 @@
                             <td>{{ $product->barcode ?: '-' }}</td>
                             <td>{{ $product->stock }} {{ $product->unit }}</td>
                             <td>
-                                @if (auth()->user()->isAdmin())
-                                    <a class="btn btn-secondary btn-small" href="{{ route('stock.index', ['edit_product' => $product->id]) }}">Edit</a>
-                                @else
-                                    <span class="muted">Lihat saja</span>
-                                @endif
+                                <a class="btn btn-secondary btn-small" href="{{ route('stock.index', ['edit_product' => $product->id]) }}">Edit</a>
+                                <form method="POST" action="{{ route('products.destroy', $product) }}" onsubmit="return confirm(@js('Hapus produk ' . $product->name . '?'))">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger btn-small" type="submit">Hapus</button>
+                                </form>
                             </td>
                         </tr>
                     @empty
