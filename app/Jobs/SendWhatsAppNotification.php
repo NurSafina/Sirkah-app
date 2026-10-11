@@ -41,15 +41,31 @@ class SendWhatsAppNotification implements ShouldQueue
         }
 
         try {
+            $templateName = config('services.whatsapp.template_name');
+            $payload = [
+                'messaging_product' => 'whatsapp',
+                'to' => $this->notification->phone_number,
+            ];
+
+            if (filled($templateName)) {
+                $payload['type'] = 'template';
+                $payload['template'] = [
+                    'name' => $templateName,
+                    'language' => ['code' => config('services.whatsapp.template_language', 'id')],
+                    'components' => [[
+                        'type' => 'body',
+                        'parameters' => [['type' => 'text', 'text' => $this->notification->message]],
+                    ]],
+                ];
+            } else {
+                $payload['type'] = 'text';
+                $payload['text'] = ['preview_url' => false, 'body' => $this->notification->message];
+            }
+
             Http::withToken($token)
                 ->acceptJson()
                 ->timeout(20)
-                ->post('https://graph.facebook.com/' . config('services.whatsapp.api_version', 'v20.0') . '/' . $phoneNumberId . '/messages', [
-                    'messaging_product' => 'whatsapp',
-                    'to' => $this->notification->phone_number,
-                    'type' => 'text',
-                    'text' => ['preview_url' => false, 'body' => $this->notification->message],
-                ])
+                ->post('https://graph.facebook.com/' . config('services.whatsapp.api_version', 'v20.0') . '/' . $phoneNumberId . '/messages', $payload)
                 ->throw();
 
             $this->notification->update(['status' => 'sent', 'sent_at' => now(), 'error_message' => null]);

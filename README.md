@@ -13,6 +13,25 @@ Login awal: `admin` / `password123` atau `kasir` / `password123`.
 
 phpMyAdmin digunakan untuk mengelola database MySQL; tabel dibentuk otomatis oleh migration Laravel.
 
+## Notifikasi WhatsApp
+
+Notifikasi top-up dan transaksi dikirim melalui WhatsApp Cloud API Meta. Isi nilai berikut di `.env` dari halaman WhatsApp > API Setup pada Meta Developers:
+
+```env
+WHATSAPP_PHONE_NUMBER_ID=Phone_Number_ID_dari_Meta
+WHATSAPP_TOKEN=Access_Token_dari_Meta
+WHATSAPP_API_VERSION=v20.0
+```
+
+Untuk pesan yang dikirim di luar sesi percakapan, buat template yang disetujui Meta. Template tersebut harus memiliki satu variabel teks pada bagian body, lalu isi:
+
+```env
+WHATSAPP_TEMPLATE_NAME=nama_template_meta
+WHATSAPP_TEMPLATE_LANGUAGE=id
+```
+
+Jika `WHATSAPP_TEMPLATE_NAME` kosong, aplikasi menggunakan pesan teks biasa untuk pengujian. Setelah mengubah `.env`, jalankan `php artisan optimize:clear`, restart server, lalu gunakan tombol `Kirim Ulang` pada menu Notifikasi WA.
+
 ## Tabel Database
 
 | Tabel | Fungsi |
