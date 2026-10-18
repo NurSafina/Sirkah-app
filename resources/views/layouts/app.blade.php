@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="{{ asset('manifest.json') }}">
-    <meta name="theme-color" content="#1f6f4a">
+    <meta name="theme-color" content="#0b2340">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>

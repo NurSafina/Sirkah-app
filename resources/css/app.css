@@ -205,6 +205,59 @@ form.inline { display: grid; grid-template-columns: 2fr 1fr auto; gap: 10px; ali
 .topup-presets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }
 .btn-amount { justify-content: center; width: 100%; padding: 7px 5px; border: 1px solid #cfe2d6; border-radius: 6px; color: var(--green-dark); background: #f1faf3; font-size: 10px; }
 .btn-amount:hover, .btn-amount:focus { border-color: var(--green); background: #dff2e4; }
+
+/* Tema utama: biru dongker dan putih */
+:root {
+    --ink: #10243e;
+    --muted: #66758a;
+    --line: #dce4ee;
+    --paper: #f4f7fb;
+    --white: #ffffff;
+    --green: #12345a;
+    --green-dark: #0b2340;
+    --coral: #12345a;
+}
+
+body { background: var(--paper); }
+.sidebar { color: #dbe7f5; background: #0b2340; }
+.brand-mark { color: #0b2340; background: #ffffff; }
+.brand small { color: #aebfd3; }
+.sidebar nav a { color: #b9c9dc; }
+.sidebar nav a span, .sidebar button .sidebar-icon { color: #8ea8c4; }
+.sidebar nav a:hover, .sidebar nav a.active, .sidebar button:hover { background: #163d67; }
+.sidebar nav a:hover .sidebar-icon, .sidebar nav a.active .sidebar-icon, .sidebar button:hover .sidebar-icon { color: #ffffff; }
+.sidebar nav a.active { box-shadow: inset 3px 0 #ffffff; }
+.sidebar button { border-color: #315579; color: #c5d3e3; }
+.user-avatar { background: #12345a; }
+.dashboard-welcome { border-left-color: #12345a; }
+.date-chip, .product-count, .access-badge { border-color: #c9d7e7; color: #0b2340; background: #eaf1f8; }
+.live-dot { background: #12345a; }
+.feature-box-primary, .dashboard-features .feature-box-primary { border-color: #c4d5e8; background: #eaf1f8; }
+.feature-icon, .dashboard-features .feature-icon { color: #0b2340; background: #d7e5f3; }
+.feature-box-primary .feature-icon { color: #0b2340; background: #ffffff; }
+.dashboard-features .feature-box:nth-child(n) { border-color: #d5e0ec; background: #ffffff; }
+.dashboard-features .feature-box:hover { border-color: #7897b8; }
+.dashboard-features .feature-arrow, .card-heading a { color: #12345a; }
+.stat-blue, .stat-green, .stat-coral, .stat-orange { color: #ffffff; background: #12345a; }
+.stat-icon { color: #0b2340; background: #ffffff; }
+.card { border-color: #dce4ee; box-shadow: 0 12px 34px rgba(11, 35, 64, .06); }
+.student-picker, .scan-panel { border-color: #bfd0e2; background: #f1f6fb; }
+.scan-symbol, .product-badge { color: #0b2340; background: #d7e5f3; }
+.scanner-status { color: #0b2340; background: #e2edf7; }
+.scanner-status i { background: #12345a; }
+.scan-input { border-color: #9fb7cf; }
+.product-scan-panel { background: #f4f7fb; border-color: #bfd0e2; }
+.product-scan-panel .scan-symbol { color: #0b2340; background: #d7e5f3; }
+.stock-history-item, .product-item { background: #fbfcfe; }
+.stock-history-values .stock-remaining b, .product-action span { color: #12345a; }
+.btn-success, .btn-primary { color: #ffffff; background: #12345a; box-shadow: 0 6px 14px rgba(11, 35, 64, .2); }
+.btn-success:hover, .btn-primary:hover { background: #0b2340; }
+.btn-secondary { color: #10243e; background: #e4ebf3; }
+input, select, textarea { border-color: #cbd8e6; }
+input:focus, select:focus, textarea:focus { border-color: #12345a; box-shadow: 0 0 0 3px rgba(18, 52, 90, .12); }
+th { color: #0b2340; background: #edf3f9; }
+.btn-amount { border-color: #c1d2e4; color: #12345a; background: #edf3f9; }
+.btn-amount:hover, .btn-amount:focus { border-color: #12345a; background: #dce8f4; }
 @media (max-width: 980px) { .stock-layout { grid-template-columns: 1fr; } }
 @media (max-width: 980px) { .dashboard-features { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 980px) { .stock-layout { grid-template-columns: 1fr; } .product-create-form { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
