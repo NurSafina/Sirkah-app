@@ -100,13 +100,59 @@ class ReportController extends Controller
 
     public function export(Request $request)
     {
+        $request->validate([
+            'date_from' => ['nullable', 'date'],
+            'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
+            'user_id' => ['nullable', 'integer', 'exists:users,id'],
+            'payment_type' => ['nullable', 'in:saldo,cash,qris'],
+            'student_id' => ['nullable', 'integer', 'exists:students,id'],
+            'product_id' => ['nullable', 'integer', 'exists:products,id'],
+            'category' => ['nullable', 'string', 'max:100'],
+        ]);
+
         $query = Transaction::with(['student', 'user'])->where('status', 'completed');
         $this->applyFilters($query, $request);
         $transactions = $query->latest()->get();
 
         if ($request->query('format') === 'pdf') {
+            $totalRevenue = (float) $transactions->sum('total');
+            $totalExpenses = (float) TransactionItem::query()
+                ->whereHas('transaction', function ($transactionQuery) use ($request) {
+                    $transactionQuery->where('status', 'completed');
+                    $this->applyFilters($transactionQuery, $request);
+                })
+                ->join('products', 'products.id', '=', 'transaction_items.product_id')
+                ->sum(DB::raw('transaction_items.quantity * products.cost_price'));
+            $stockSummary = Product::query()->select('name', 'category', 'stock', 'price', 'cost_price')
+                ->orderBy('category')->orderBy('name')->get();
+            $topProducts = TransactionItem::query()
+                ->whereHas('transaction', function ($transactionQuery) use ($request) {
+                    $transactionQuery->where('status', 'completed');
+                    $this->applyFilters($transactionQuery, $request);
+                })
+                ->selectRaw('product_name, SUM(quantity) as sold, SUM(subtotal) as revenue')
+                ->groupBy('product_name')->orderByDesc('sold')->limit(5)->get();
+            $dailyRevenue = (clone $query)->selectRaw('DATE(created_at) as date, SUM(total) as total')
+                ->groupBy('date')->orderBy('date')->get();
+            $dailyStudentSpending = (clone $query)->selectRaw('DATE(created_at) as date, SUM(total) as total_spent')
+                ->groupBy('date')->orderBy('date')->get();
+            $totalTopups = (float) BalanceMutation::where('type', 'topup')
+                ->when($request->filled('date_from'), fn ($q) => $q->whereDate('created_at', '>=', $request->date_from))
+                ->when($request->filled('date_to'), fn ($q) => $q->whereDate('created_at', '<=', $request->date_to))
+                ->sum('amount');
+            $studentBalances = Student::orderBy('name')->get(['name', 'balance']);
+
             return Pdf::loadView('reports.pdf', [
                 'transactions' => $transactions,
+                'totalRevenue' => $totalRevenue,
+                'totalExpenses' => $totalExpenses,
+                'profit' => $totalRevenue - $totalExpenses,
+                'totalTopups' => $totalTopups,
+                'stockSummary' => $stockSummary,
+                'topProducts' => $topProducts,
+                'dailyRevenue' => $dailyRevenue,
+                'dailyStudentSpending' => $dailyStudentSpending,
+                'studentBalances' => $studentBalances,
                 'dateFrom' => $request->query('date_from'),
                 'dateTo' => $request->query('date_to'),
             ])->setPaper('a4', 'landscape')->download('laporan-penjualan-' . now()->format('Y-m-d') . '.pdf');

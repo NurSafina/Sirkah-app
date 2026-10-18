@@ -75,5 +75,9 @@ class ReportPrintTest extends TestCase
         $response->assertSee('7.000');
         $response->assertSee('5.000');
         $response->assertSee('Jajan Siswa per Hari');
+
+        $pdf = $this->actingAs($admin)->get('/reports/export?format=pdf');
+        $pdf->assertOk();
+        $pdf->assertHeader('content-type', 'application/pdf');
     }
 }
