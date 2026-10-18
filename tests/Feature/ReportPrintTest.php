@@ -69,7 +69,9 @@ class ReportPrintTest extends TestCase
         $response->assertSee('Cetak Laporan');
         $response->assertSee('Stok Barang');
         $response->assertSee('Pendapatan');
-        $response->assertSee('Pengeluaran');
+        $response->assertSee('Modal Terjual');
+        $response->assertSee('Daftar Transaksi Penjualan');
+        $response->assertSee('TRX-PRINT-1');
         $response->assertSee('7.000');
         $response->assertSee('5.000');
         $response->assertSee('Jajan Siswa per Hari');

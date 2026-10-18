@@ -25,7 +25,7 @@
                 <div><label for="payment_type">Metode</label><select id="payment_type" name="payment_type"><option value="">Semua metode</option><option value="saldo" @selected(request('payment_type') === 'saldo')>Saldo santri</option><option value="cash" @selected(request('payment_type') === 'cash')>Tunai</option><option value="qris" @selected(request('payment_type') === 'qris')>QRIS</option></select></div>
                 <div><label for="student_id">Santri</label><select id="student_id" name="student_id"><option value="">Semua santri</option>@foreach($students as $student)<option value="{{ $student->id }}" @selected(request('student_id') == $student->id)>{{ $student->name }} ({{ $student->student_number }})</option>@endforeach</select></div>
                 <div><label for="product_id">Produk</label><select id="product_id" name="product_id"><option value="">Semua produk</option>@foreach($products as $product)<option value="{{ $product->id }}" @selected(request('product_id') == $product->id)>{{ $product->name }}</option>@endforeach</select></div>
-                <div><label for="category">Kategori</label><input id="category" type="text" name="category" value="{{ request('category') }}" placeholder="Contoh: Makanan"></div>
+                <div><label for="category">Kategori</label><select id="category" name="category"><option value="">Semua kategori</option>@foreach($categories as $category)<option value="{{ $category }}" @selected(request('category') === $category)>{{ $category }}</option>@endforeach</select></div>
                 <div><button class="btn btn-primary" type="submit">Terapkan Filter</button> <a class="btn btn-secondary" href="{{ route('reports.index') }}">Reset</a></div>
             </form>
         </div>
@@ -34,15 +34,38 @@
             <h3>Ringkasan Laporan</h3>
             <table class="report-table">
                 <thead>
-                    <tr><th>Pendapatan</th><th>Pengeluaran</th><th>Keuntungan</th><th>Total Top-up</th></tr>
+                    <tr><th>Transaksi Selesai</th><th>Pendapatan</th><th>Modal Terjual</th><th>Keuntungan</th><th>Total Top-up</th></tr>
                 </thead>
                 <tbody>
                     <tr>
+                        <td>{{ number_format($transactionCount, 0, ',', '.') }}</td>
                         <td>Rp {{ number_format($totalRevenue, 0, ',', '.') }}</td>
-                        <td>Rp {{ number_format($totalExpenses, 0, ',', '.') }}</td>
+                            <td>Rp {{ number_format($totalExpenses, 0, ',', '.') }}</td>
                         <td>Rp {{ number_format($profit, 0, ',', '.') }}</td>
                         <td>Rp {{ number_format($totalTopups, 0, ',', '.') }}</td>
                     </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="report-section card">
+            <h3>Daftar Transaksi Penjualan</h3>
+            <p class="muted">Menampilkan maksimal 50 transaksi terbaru sesuai filter.</p>
+            <table class="report-table">
+                <thead><tr><th>Waktu</th><th>Kode</th><th>Santri</th><th>Kasir</th><th>Metode</th><th>Total</th></tr></thead>
+                <tbody>
+                    @forelse($transactions as $transaction)
+                        <tr>
+                            <td>{{ $transaction->created_at->format('d/m/Y H:i') }}</td>
+                            <td>{{ $transaction->transaction_code }}</td>
+                            <td>{{ $transaction->student?->name ?? '-' }}</td>
+                            <td>{{ $transaction->user?->name ?? '-' }}</td>
+                            <td>{{ strtoupper($transaction->payment_type) }}</td>
+                            <td>Rp {{ number_format($transaction->total, 0, ',', '.') }}</td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="6">Belum ada transaksi sesuai filter.</td></tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

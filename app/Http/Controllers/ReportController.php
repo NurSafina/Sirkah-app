@@ -16,9 +16,20 @@ class ReportController extends Controller
 {
     public function index(Request $request)
     {
+        $request->validate([
+            'date_from' => ['nullable', 'date'],
+            'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
+            'user_id' => ['nullable', 'integer', 'exists:users,id'],
+            'payment_type' => ['nullable', 'in:saldo,cash,qris'],
+            'student_id' => ['nullable', 'integer', 'exists:students,id'],
+            'product_id' => ['nullable', 'integer', 'exists:products,id'],
+            'category' => ['nullable', 'string', 'max:100'],
+        ]);
+
         $query = Transaction::query()->where('status', 'completed');
         $this->applyFilters($query, $request);
         $totalRevenue = (float) (clone $query)->sum('total');
+        $transactionCount = (clone $query)->count();
         $totalExpenses = (float) TransactionItem::query()
             ->whereHas('transaction', function ($transactionQuery) use ($request) {
                 $transactionQuery->where('status', 'completed');
@@ -50,6 +61,12 @@ class ReportController extends Controller
             ->limit(5)
             ->get();
 
+        $transactions = (clone $query)
+            ->with(['student', 'user'])
+            ->latest()
+            ->limit(50)
+            ->get();
+
         $dailyStudentSpending = (clone $query)
             ->selectRaw('DATE(created_at) as date, SUM(total) as total_spent')
             ->groupBy('date')
@@ -61,6 +78,8 @@ class ReportController extends Controller
         $cashiers = User::where('role', 'cashier')->orderBy('name')->get();
         $students = Student::orderBy('name')->get(['id', 'name', 'student_number']);
         $products = Product::where('is_active', true)->orderBy('name')->get(['id', 'name']);
+        $categories = Product::query()->whereNotNull('category')->where('category', '<>', '')
+            ->select('category')->distinct()->orderBy('category')->pluck('category');
         $totalTopups = (float) BalanceMutation::where('type', 'topup')
             ->when($request->filled('date_from'), fn ($q) => $q->whereDate('created_at', '>=', $request->date_from))
             ->when($request->filled('date_to'), fn ($q) => $q->whereDate('created_at', '<=', $request->date_to))
@@ -69,11 +88,13 @@ class ReportController extends Controller
         return view('reports.index', compact(
             'totalRevenue',
             'totalExpenses',
+            'transactionCount',
+            'transactions',
             'dailyRevenue',
             'stockSummary',
             'topProducts',
             'dailyStudentSpending', 'cashiers', 'students', 'products',
-            'totalTopups', 'studentBalances', 'profit'
+            'totalTopups', 'studentBalances', 'categories', 'profit'
         ));
     }
 
