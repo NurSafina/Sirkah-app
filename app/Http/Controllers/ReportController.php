@@ -19,7 +19,13 @@ class ReportController extends Controller
         $query = Transaction::query()->where('status', 'completed');
         $this->applyFilters($query, $request);
         $totalRevenue = (float) (clone $query)->sum('total');
-        $totalExpenses = (float) Product::sum(DB::raw('cost_price * stock'));
+        $totalExpenses = (float) TransactionItem::query()
+            ->whereHas('transaction', function ($transactionQuery) use ($request) {
+                $transactionQuery->where('status', 'completed');
+                $this->applyFilters($transactionQuery, $request);
+            })
+            ->join('products', 'products.id', '=', 'transaction_items.product_id')
+            ->sum(DB::raw('transaction_items.quantity * products.cost_price'));
 
         $dailyRevenue = (clone $query)
             ->selectRaw('DATE(created_at) as date, SUM(total) as total')

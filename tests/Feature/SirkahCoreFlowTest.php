@@ -77,6 +77,10 @@ class SirkahCoreFlowTest extends TestCase
             'user_id' => $cashier->id, 'transaction_code' => 'TRX-TEST-003', 'total' => 5000,
             'payment_type' => 'saldo', 'status' => 'completed',
         ]);
+        $this->actingAs($cashier)->get('/transactions')
+            ->assertOk()
+            ->assertDontSee('Hapus / Batalkan')
+            ->assertDontSee('Edit Transaksi');
         $this->actingAs($cashier)->delete('/transactions/' . $transaction->id)->assertForbidden();
     }
 }

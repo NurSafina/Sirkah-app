@@ -23,7 +23,7 @@ class TransactionController extends Controller
         }
         $transactions = $query->paginate(15);
         $students = Student::where('status', 'active')->orderBy('name')->get();
-        $editingTransaction = $request->filled('edit')
+        $editingTransaction = auth()->user()->isAdmin() && $request->filled('edit')
             ? Transaction::with('items')->findOrFail($request->integer('edit'))
             : null;
 

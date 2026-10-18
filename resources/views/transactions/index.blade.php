@@ -74,14 +74,18 @@
                         <td>Rp {{ number_format($transaction->total, 0, ',', '.') }}</td>
                         <td>{{ $transaction->created_at->format('d M Y H:i') }}</td>
                         <td>
-                            <div class="transaction-actions">
-                                <a class="btn btn-secondary btn-small" href="{{ route('transactions.index', ['edit' => $transaction->id]) }}">Edit</a>
-                                <form method="POST" action="{{ route('transactions.destroy', $transaction) }}" onsubmit="return confirm(@js('Hapus transaksi ' . $transaction->transaction_code . '? Stok dan saldo akan dikembalikan.'))">
-                                    @csrf
-                                    @method('DELETE')
-<button class="btn btn-danger btn-small" type="submit">Hapus / Batalkan</button>
-                                </form>
-                            </div>
+                            @if (auth()->user()->isAdmin())
+                                <div class="transaction-actions">
+                                    <a class="btn btn-secondary btn-small" href="{{ route('transactions.index', ['edit' => $transaction->id]) }}">Edit</a>
+                                    <form method="POST" action="{{ route('transactions.destroy', $transaction) }}" onsubmit="return confirm(@js('Hapus transaksi ' . $transaction->transaction_code . '? Stok dan saldo akan dikembalikan.'))">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-small" type="submit">Hapus / Batalkan</button>
+                                    </form>
+                                </div>
+                            @else
+                                <span class="muted">Lihat saja</span>
+                            @endif
                         </td>
                     </tr>
                 @empty
