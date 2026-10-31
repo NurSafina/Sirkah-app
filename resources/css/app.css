@@ -219,6 +219,9 @@ form.inline { display: grid; grid-template-columns: 2fr 1fr auto; gap: 10px; ali
 }
 
 body { background: var(--paper); }
+h1, h2, h3, label, .feature-content strong, .card-heading h2 { color: #10243e; }
+a { color: #12345a; }
+.breadcrumb, .muted, .feature-content small, .user-chip small { color: #66758a; }
 .sidebar { color: #dbe7f5; background: #0b2340; }
 .brand-mark { color: #0b2340; background: #ffffff; }
 .brand small { color: #aebfd3; }
