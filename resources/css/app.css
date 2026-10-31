@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 :root {
-	--ink: #17202a;
+	--ink: #10243e;
 	--muted: #76808a;
 	--line: #e5e9e8;
 	--paper: #f5f7f4;
@@ -16,7 +16,7 @@ body { margin: 0; color: var(--ink); background: var(--paper); font-family: 'DM 
 .layout { display: flex; min-height: 100vh; }
 .sidebar { width: 250px; flex-shrink: 0; padding: 30px 18px 24px; color: #dce9e2; background: #183b35; display: flex; flex-direction: column; }
 .brand { display: flex; align-items: center; gap: 11px; color: white; text-decoration: none; margin: 0 10px 52px; }
-.brand-mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; color: #183b35; background: #f4b85d; font: 700 21px 'Space Grotesk', sans-serif; }
+.brand-mark { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; color: #0b2340; background: #ffffff; font: 700 21px 'Space Grotesk', sans-serif; }
 .brand strong, .brand small { display: block; }
 .brand strong { font: 700 19px 'Space Grotesk', sans-serif; letter-spacing: -.5px; }
 .brand small { margin-top: 2px; color: #9ebdb0; font-size: 10px; letter-spacing: .6px; text-transform: uppercase; }
@@ -80,7 +80,7 @@ h3 { margin-top: 0; }
 .feature-content small { margin-top: 5px; color: var(--muted); font-size: 11px; line-height: 1.4; }
 .feature-arrow { color: #8fa399; font-size: 20px; }
 .stats-heading { margin-top: 4px; }
-.stat { min-height: 128px; padding: 15px 17px; border: 0; border-radius: 3px; color: #17202a; box-shadow: none; }
+.stat { min-height: 128px; padding: 15px 17px; border: 0; border-radius: 3px; color: #10243e; box-shadow: none; }
 .stat span:not(.stat-icon) { display: block; font-size: 11px; font-weight: 700; }
 .stat strong { display: block; margin-top: 10px; font: 700 24px 'Space Grotesk', sans-serif; }
 .stat small { display: block; margin-top: 7px; color: rgba(23,32,42,.64); font-size: 10px; }
