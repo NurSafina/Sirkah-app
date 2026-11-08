@@ -86,7 +86,7 @@
         .student-balance-panel { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 12px; padding: 12px; border: 1px solid #cfe0d8; border-radius: 10px; background: #f4faf6; }
         .student-balance-panel small, .student-balance-panel strong { display: block; }
         .student-balance-panel small { color: #667085; font-size: 11px; }
-        .student-balance-panel strong { margin-top: 4px; color: #12345a; font-size: 15px; }
+        .student-balance-panel strong { margin-top: 4px; color: #183b35; font-size: 15px; }
         @media (max-width: 720px) { .student-balance-panel { grid-template-columns: 1fr; } }
     </style>
     <script>

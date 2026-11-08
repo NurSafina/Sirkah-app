@@ -288,7 +288,7 @@
 
             .report-header {
                 display: block;
-                border-bottom: 2px solid #0b2340 !important;
+                border-bottom: 2px solid #111827 !important;
                 padding: 0 0 8px !important;
                 margin-bottom: 14px !important;
             }
@@ -302,7 +302,7 @@
             .report-table td {
                 font-size: 10pt;
                 padding: 6px 8px;
-                border: 1px solid #0b2340;
+                border: 1px solid #111827;
             }
 
             .report-table { table-layout: auto; }

@@ -5,7 +5,7 @@
     <title>Laporan Kantin</title>
     <style>
         @page { margin: 18px; }
-        body { font-family: DejaVu Sans, sans-serif; font-size: 10px; color: #10243e; }
+        body { font-family: DejaVu Sans, sans-serif; font-size: 10px; color: #172033; }
         h1 { margin: 0 0 4px; font-size: 18px; }
         h2 { margin: 18px 0 6px; font-size: 13px; }
         p { margin: 0 0 14px; color: #667085; }

@@ -6,9 +6,9 @@
     <title>Masuk | Kantin Cashless</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
-        :root { --ink: #10243e; --muted: #66758a; --green: #0b2340; --green-light: #12345a; --accent: #ffffff; --coral: #12345a; }
+        :root { --ink: #17202a; --muted: #718078; --green: #183b35; --green-light: #2e6757; --accent: #f4b85d; --coral: #ef755f; }
         * { box-sizing: border-box; }
-        body { min-height: 100vh; margin: 0; color: var(--ink); background: #f4f7fb; font-family: 'DM Sans', sans-serif; }
+        body { min-height: 100vh; margin: 0; color: var(--ink); background: #f4f7f3; font-family: 'DM Sans', sans-serif; }
         .login-wrap { display: grid; grid-template-columns: minmax(300px, .9fr) minmax(420px, 1.1fr); min-height: 100vh; }
         .welcome-panel { position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; padding: clamp(28px, 5vw, 70px); color: white; background: var(--green); }
         .welcome-panel::before, .welcome-panel::after { position: absolute; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; content: ''; }
@@ -18,18 +18,18 @@
         .brand-mark { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 13px; color: var(--green); background: var(--accent); font: 700 23px 'Space Grotesk', sans-serif; }
         .brand strong, .brand small { display: block; }
         .brand strong { font: 700 20px 'Space Grotesk', sans-serif; }
-        .brand small { margin-top: 2px; color: #b9c9dc; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+        .brand small { margin-top: 2px; color: #a9cabe; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
         .welcome-copy { position: relative; z-index: 1; max-width: 440px; margin: auto 0; }
         .welcome-copy .eyebrow { color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: 2px; }
         .welcome-copy h1 { max-width: 390px; margin: 15px 0 18px; font: 700 clamp(34px, 4vw, 58px)/1.05 'Space Grotesk', sans-serif; letter-spacing: -2px; }
-        .welcome-copy p { max-width: 370px; margin: 0; color: #c7d6e7; font-size: 15px; line-height: 1.7; }
+        .welcome-copy p { max-width: 370px; margin: 0; color: #bed5c9; font-size: 15px; line-height: 1.7; }
         .feature-row { position: relative; z-index: 1; display: flex; gap: 24px; color: #c6ded2; font-size: 12px; }
         .feature-row span::before { margin-right: 7px; color: var(--accent); content: '✓'; font-weight: 700; }
-        .login-side { display: grid; place-items: center; padding: 40px clamp(24px, 6vw, 100px); background: #ffffff; }
+        .login-side { display: grid; place-items: center; padding: 40px clamp(24px, 6vw, 100px); background: #f8faf7; }
         .login-box { width: min(100%, 420px); }
         .login-box h2 { margin: 0 0 8px; font: 700 31px 'Space Grotesk', sans-serif; letter-spacing: -1px; }
         .subtitle { margin: 0 0 30px; color: var(--muted); font-size: 14px; }
-        label { display: block; margin-bottom: 8px; color: #10243e; font-size: 13px; font-weight: 700; }
+        label { display: block; margin-bottom: 8px; color: #33423c; font-size: 13px; font-weight: 700; }
         .field { position: relative; margin-bottom: 18px; }
         .field-icon { position: absolute; top: 12px; left: 14px; color: #91a199; font-size: 16px; }
         input { width: 100%; padding: 13px 14px 13px 42px; border: 1px solid #d9e2dc; border-radius: 9px; color: var(--ink); background: white; font: inherit; outline: none; transition: .2s ease; }
